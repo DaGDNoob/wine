@@ -2143,8 +2143,11 @@ DWORD WINAPI DECLSPEC_HOTPATCH GetLongPathNameW( LPCWSTR shortpath, LPWSTR longp
         SetLastError( ERROR_PATH_NOT_FOUND );
         return 0;
     }
-
-    if (shortpath[0] == '\\' && shortpath[1] == '\\')
+    if (shortpath[0] == '\\' && shortpath[1] == '\\' && shortpath[2] == '?' && shortpath[3] == '\\')
+    {
+        sp = 4;
+    }
+    else if (shortpath[0] == '\\' && shortpath[1] == '\\')
     {
         FIXME( "UNC pathname %s\n", debugstr_w(shortpath) );
         tmplen = lstrlenW( shortpath );
